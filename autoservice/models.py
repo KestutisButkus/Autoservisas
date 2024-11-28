@@ -77,5 +77,5 @@ class Uzsakymo_eilute(models.Model):
         verbose_name_plural = "Užsakymo eilutės"
 
 """
-dėkoju https://github.com/Gvirbalis/autoservice už pavyzdinį models.py kodą.
+dėkoju https://github.com/Gvirbalis/autoservice už pavyzdinį models.py kodą
 """

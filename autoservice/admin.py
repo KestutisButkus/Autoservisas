@@ -27,3 +27,4 @@ admin.site.register(Automobilis, AutomobilisAdmin)
 admin.site.register(Uzsakymas, UzsakymasAdmin)
 admin.site.register(Paslauga, PaslaugaAdmin)
 # admin.site.register(Uzsakymo_eilute)
+#
