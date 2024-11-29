@@ -7,7 +7,7 @@ class UzsakymoEiluteInline(admin.TabularInline):
 
 class UzsakymasAdmin(admin.ModelAdmin):
     inlines = [UzsakymoEiluteInline]
-    list_display = ("id", 'automobilis', 'data')
+    list_display = ("id", 'automobilis', 'status', 'data')
 
     # list_display = ('id', 'data', 'status', 'automobilis')
 
@@ -19,7 +19,7 @@ class AutomobilisAdmin(admin.ModelAdmin):
     search_help_text = 'Paieška pagal valstybinį nr., arba VIN kodą'
 
 class PaslaugaAdmin(admin.ModelAdmin):
-    list_display = ('pavadinimas', 'kaina')
+    list_display = ('pavadinimas', 'kaina', 'id')
 
 
 

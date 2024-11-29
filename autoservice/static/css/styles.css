@@ -1,0 +1,44 @@
+body {
+    background-color: #eeeeee; /* Šviesus fonas */
+    color: #1f677f; /* Tekstas */
+}
+
+.sidebar-nav {
+    margin-top: 20px;
+    padding: 15px;
+    list-style-type: none;
+    background-color: #1f677f; /* Šoninės juostos fonas */
+}
+
+.sidebar-nav li {
+    margin-bottom: 10px;
+}
+
+.sidebar-nav li a {
+    color: #ffffff; /* Nuorodos */
+    text-decoration: none;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: underline;
+}
+
+.col-sm-10 {
+    background-color: #eeeeee; /* Pagrindinio turinio fonas */
+    margin-top: 20px;
+    padding: 100px;
+    border-radius: 5px;
+}
+
+.logo-bottom-right {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.logo-top-right {
+    margin-top: 20px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
