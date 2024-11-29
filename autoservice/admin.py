@@ -3,11 +3,11 @@ from .models import Automobilio_modelis, Automobilis, Uzsakymas, Paslauga, Uzsak
 
 class UzsakymoEiluteInline(admin.TabularInline):
     model = Uzsakymo_eilute
-    extra = 1
+    extra = 2
 
 class UzsakymasAdmin(admin.ModelAdmin):
     inlines = [UzsakymoEiluteInline]
-    list_display = ('id', 'automobilis', 'data')
+    list_display = ("id", 'automobilis', 'data')
 
     # list_display = ('id', 'data', 'status', 'automobilis')
 
@@ -22,9 +22,11 @@ class PaslaugaAdmin(admin.ModelAdmin):
     list_display = ('pavadinimas', 'kaina')
 
 
+
 admin.site.register(Automobilio_modelis)
 admin.site.register(Automobilis, AutomobilisAdmin)
 admin.site.register(Uzsakymas, UzsakymasAdmin)
 admin.site.register(Paslauga, PaslaugaAdmin)
-# admin.site.register(Uzsakymo_eilute)
-#
+admin.site.register(Uzsakymo_eilute)
+
+# https://github.com/KestutisButkus/Autoservisas

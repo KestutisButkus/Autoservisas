@@ -79,3 +79,4 @@ class Uzsakymo_eilute(models.Model):
 """
 dėkoju https://github.com/Gvirbalis/autoservice už pavyzdinį models.py kodą
 """
+# https://github.com/KestutisButkus/Autoservisas
