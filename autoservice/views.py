@@ -1,5 +1,7 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.views import generic
+
 from .models import Automobilio_modelis, Automobilis, Paslauga, Uzsakymas, Uzsakymo_eilute
 
 def index(request):
@@ -19,3 +21,35 @@ def index(request):
             'atlikti_uzsakymai': atlikti_uzsakymai
         }
     return render(request, 'index.html', context=context)
+
+def car_list(request):
+    cars = Automobilis.objects.all()
+    context = {'cars': cars}
+    # print(cars)
+    return render(request, 'cars.html', context=context)
+
+# def car_detail(request, car_id):
+#     car = Automobilis.objects.get(id=car_id)
+#     context = {'car': car}
+#     return render(request, 'car_detail.html', context)
+
+def car_detail(request, car_id):
+    car = get_object_or_404(Automobilis, pk=car_id)
+    return render(request, 'car_detail.html', {'car': car})
+
+
+def cars(request):
+    cars_list = Automobilis.objects.all()
+    return render(request, 'cars.html', {'cars': cars_list})
+
+
+class OrderListView(generic.ListView):
+    model = Uzsakymas
+    template_name = 'orders_list.html'
+    context_object_name = 'object_list'
+
+
+class OrderDetailView(generic.DetailView):
+    model = Uzsakymas
+    template_name = 'order_detail.html'
+    context_object_name = 'details_order'  # Pakeistas kintamojo pavadinimas

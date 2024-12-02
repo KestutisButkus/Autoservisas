@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Automobiliai</h1>
+  <p>Mūsų klientų automobilių sąrašas.</p>
+  <ul>
+  {% for car in cars %}
+    <li>
+      <a href="{% url 'car_detail' car.id %}">
+          {{car.automobilio_modelis}}
+<!--          {{car.klientas}}-->
+      </a>
+      {% if car.uzsakymas_set.all %}
+        {% for uzsakymas in car.uzsakymas_set.all %}
+          {% if forloop.last %}
+            <p class="{% if uzsakymas.status == 'galima_atsiimti' %}text-success{% elif uzsakymas.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
+              Būklė: {{ uzsakymas.get_status_display }}
+            </p>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <p>Būklė: Nėra užsakymų</p>
+      {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+{% endblock %}

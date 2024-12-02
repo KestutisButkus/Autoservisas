@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Užsakymo NR: {{ details_order.id }}</h1>
+  <p>Automobilis: <a href="{% url 'car_detail' details_order.automobilis.id %}">{{ details_order.automobilio_modelis }} - {{ details_order.valstybinis_nr }}</a></p>
+  <p>Būklė: <span class="{% if details_order.status == 'galima_atsiimti' %}text-success{% elif details_order.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
+    {{ details_order.get_status_display }}
+  </span></p>
+  <p>Data: {{ details_order.data }}</p>
+
+  <h3>Užsakymo Eilutės</h3>
+  {% if details_order.uzsakymo_eilute_set.all %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+<!--          <th scope="col">Eilutės NR</th>-->
+          <th scope="col">Paslauga</th>
+          <th scope="col">Kiekis</th>
+          <th scope="col">Kaina</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for eilute in details_order.uzsakymo_eilute_set.all %}
+          <tr>
+            <td>{{ eilute.id }}</td>
+            <td>{{ eilute.paslauga }}</td>
+            <td>{{ eilute.kiekis }}</td>
+            <td>{{ eilute.kaina }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Šis užsakymas neturi eilučių.</p>
+  {% endif %}
+{% endblock %}

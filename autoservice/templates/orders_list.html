@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Užsakymai</h1>
+  <p>Užsakymų sąrašas.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Užsakymo NR</th>
+        <th scope="col">Automobilis</th>
+        <th scope="col">Būklė</th>
+        <th scope="col">Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in object_list %}
+        <tr>
+          <td>
+            <a href="{% url 'order_detail' order.id %}"> {{ order.id }} </a> <!-- Pakeista į užsakymo detales -->
+          </td>
+          <td>
+            {{ order.automobilis.automobilio_modelis }} - {{ order.automobilis.valstybinis_nr }}
+          </td>
+          <td class="{% if order.status == 'galima_atsiimti' %}text-success{% elif order.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
+            {{ order.get_status_display }}
+          </td>
+          <td>{{ order.data }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
