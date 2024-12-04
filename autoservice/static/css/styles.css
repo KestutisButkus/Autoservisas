@@ -3,31 +3,23 @@ body {
     color: #1f677f; /* Tekstas */
 }
 
-.sidebar-nav {
-    margin-top: 20px;
-    padding: 15px;
-    list-style-type: none;
-    background-color: #1f677f; /* Šoninės juostos fonas */
+.navbar-custom {
+  background-color: #1f677f;
+  padding: 20px;
 }
 
-.sidebar-nav li {
-    margin-bottom: 10px;
+.navbar-custom .nav-link {
+  color: #dddddd; /* Pakeiskite į pageidaujamą spalvą */
+  font-size: 12px;
 }
 
-.sidebar-nav li a {
-    color: #ffffff; /* Nuorodos */
-    text-decoration: none;
+.navbar-custom .nav-link:hover {
+  color: #ffffff; /* Pakeiskite spalvą, kai nuoroda yra pakabinama */
+  text-decoration: underline;
 }
 
-.sidebar-nav li a:hover {
-    text-decoration: underline;
-}
-
-.col-sm-10 {
-    background-color: #eeeeee; /* Pagrindinio turinio fonas */
-    margin-top: 20px;
-    padding: 100px;
-    border-radius: 5px;
+.navbar-custom .navbar-brand {
+  color: #ffffff; /* Pakeiskite į pageidaujamą spalvą */
 }
 
 .logo-bottom-right {
@@ -36,9 +28,15 @@ body {
     right: 20px;
 }
 
-.logo-top-right {
-    margin-top: 20px;
-    position: absolute;
-    top: 20px;
-    right: 20px;
+
+.admin-link {
+  position: absolute;
+  top: 3px;
+  left: 10px;
+  font-size: 10px;
+  color: #8cc4bf; /* Žydra šriftas */
+}
+
+.admin-link:hover {
+  color: #cbeae7; /* Žydra šriftas pakabinus */
 }

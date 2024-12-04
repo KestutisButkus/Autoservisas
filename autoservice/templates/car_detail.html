@@ -11,9 +11,11 @@
         <p class="{% if uzsakymas.status == 'galima_atsiimti' %}text-success{% elif uzsakymas.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
           Būklė: {{ uzsakymas.get_status_display }}
         </p>
+        <img src="{{ car.car_pic.url }}" class="card-img-top" alt="{{ car.automobilio_modelis }}">
       {% endif %}
     {% endfor %}
   {% else %}
     <p>Būklė: Nėra užsakymų</p>
+
   {% endif %}
 {% endblock %}

@@ -13,15 +13,17 @@ def index(request):
     num_instances_tvarkomas = Uzsakymas.objects.filter(status__exact='tvarkomas').count()
     num_car_models = Automobilio_modelis.objects.count()
     num_car = Automobilis.objects.all().count()
-
+    num_visits = request.session.get('num_visits', 1)
+    request.session['num_visits'] = num_visits + 1
     context = {
-            'num_car': num_car,
-            'num_cars_bukle': num_cars_bukle,
-            'num_instances_tvarkomas': num_instances_tvarkomas,
-            'num_car_models': num_car_models,
-            'paslaugu_kiekis': paslaugu_kiekis,
-            'atlikti_uzsakymai': atlikti_uzsakymai
-        }
+                'num_car': num_car,
+                'num_cars_bukle': num_cars_bukle,
+                'num_instances_tvarkomas': num_instances_tvarkomas,
+                'num_car_models': num_car_models,
+                'paslaugu_kiekis': paslaugu_kiekis,
+                'atlikti_uzsakymai': atlikti_uzsakymai,
+                'num_visits': num_visits,
+            }
     return render(request, 'index.html', context=context)
 
 from django.core.paginator import Paginator
@@ -45,7 +47,7 @@ def car_detail(request, car_id):
 
 class OrderListView(generic.ListView):
     model = Uzsakymas
-    paginate_by = 5
+    paginate_by = 8
     template_name = 'orders_list.html'
     context_object_name = 'object_list'
 
@@ -63,3 +65,15 @@ def search(request):
         Q(vin_kodas__icontains=query)
     )
     return render(request, 'search.html', {'cars': search_results, 'query': query})
+
+
+# def register(request):
+#     if request.method == 'POST':
+#         form = UserCreationForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             login(request, user)
+#             return redirect('index')
+#     else:
+#         form = UserCreationForm()
+#     return render(request, 'register.html', {'form': form})

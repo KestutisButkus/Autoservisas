@@ -17,7 +17,7 @@
             <div class="card-body">
               <h6 class="card-subtitle mb-2 text-muted">{{ car.automobilio_modelis }}</h6>
               <p class="card-text">
-                <a href="{% url 'car_detail' car.id %}">{{ car.automobilio_modelis }} - {{ car.valstybinis_nr }}</a>
+                <a href="{% url 'car_detail' car.id %}">{{ car.valstybinis_nr }}</a>
               </p>
               <p class="card-text">Klientas: {{ car.klientas }}</p>
               {% if car.uzsakymas_set.all %}
