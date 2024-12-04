@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Automobilio_modelis(models.Model):
     marke = models.CharField('Markė', max_length=100, help_text='Įveskite markę (pvz. Ford)')
     modelis = models.CharField('Modelis', max_length=100, help_text='Įveskite modelį (pvz. Focus)')
@@ -16,6 +17,8 @@ class Automobilis(models.Model):
     automobilio_modelis = models.ForeignKey('Automobilio_modelis', on_delete=models.CASCADE, null=False)
     vin_kodas = models.CharField('VIN Kodas', max_length=17, help_text='Įveskite VIN (pvz. 3C6UR5CJXEG146621)')
     klientas = models.CharField('Klientas', max_length=100, help_text='Vardas Pavardė (pvz. Juozas Juozaitis)')
+    car_pic = models.ImageField('Foto', upload_to='car_pic', null=True, blank=True)
+
 
     def __str__(self):
         return f'{self.automobilio_modelis} - {self.valstybinis_nr} - VIN{self.vin_kodas} - Klientas: {self.klientas}'

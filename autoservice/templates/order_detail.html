@@ -2,7 +2,13 @@
 
 {% block content %}
   <h1>Užsakymo NR: {{ details_order.id }}</h1>
-  <p>Automobilis: <a href="{% url 'car_detail' details_order.automobilis.id %}">{{ details_order.automobilio_modelis }} - {{ details_order.valstybinis_nr }}</a></p>
+  <p>Automobilis:
+    {% if details_order.automobilis %}
+      <a href="{% url 'car_detail' details_order.automobilis.id %}">{{ details_order.automobilis.automobilio_modelis }} - {{ details_order.automobilis.valstybinis_nr }}</a>
+    {% else %}
+      -
+    {% endif %}
+  </p>
   <p>Būklė: <span class="{% if details_order.status == 'galima_atsiimti' %}text-success{% elif details_order.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
     {{ details_order.get_status_display }}
   </span></p>
@@ -13,7 +19,6 @@
     <table class="table table-striped">
       <thead>
         <tr>
-<!--          <th scope="col">Eilutės NR</th>-->
           <th scope="col">Paslauga</th>
           <th scope="col">Kiekis</th>
           <th scope="col">Kaina</th>
@@ -22,7 +27,6 @@
       <tbody>
         {% for eilute in details_order.uzsakymo_eilute_set.all %}
           <tr>
-            <td>{{ eilute.id }}</td>
             <td>{{ eilute.paslauga }}</td>
             <td>{{ eilute.kiekis }}</td>
             <td>{{ eilute.kaina }}</td>

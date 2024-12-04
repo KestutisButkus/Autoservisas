@@ -1,27 +1,85 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1>Automobiliai</h1>
-  <p>Mūsų klientų automobilių sąrašas.</p>
-  <ul>
-  {% for car in cars %}
-    <li>
-      <a href="{% url 'car_detail' car.id %}">
-          {{car.automobilio_modelis}}
-<!--          {{car.klientas}}-->
-      </a>
-      {% if car.uzsakymas_set.all %}
-        {% for uzsakymas in car.uzsakymas_set.all %}
-          {% if forloop.last %}
-            <p class="{% if uzsakymas.status == 'galima_atsiimti' %}text-success{% elif uzsakymas.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
-              Būklė: {{ uzsakymas.get_status_display }}
-            </p>
+  <h1>Automobilių sąrašas</h1>
+  <br>
+  {% if cars %}
+    <div class="row">
+      {% for car in cars %}
+        <div class="col-md-4 d-flex align-items-stretch">
+          <div class="card mb-4 shadow-sm">
+            {% if car.car_pic %}
+              <img src="{{ car.car_pic.url }}" class="card-img-top" alt="{{ car.automobilio_modelis }}">
+            {% else %}
+              <img src="{% static 'images/no_img.png' %}" class="card-img-top" alt="Nėra paveikslėlio">
+            {% endif %}
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">{{ car.automobilio_modelis }}</h6>
+              <p class="card-text">
+                <a href="{% url 'car_detail' car.id %}">{{ car.automobilio_modelis }} - {{ car.valstybinis_nr }}</a>
+              </p>
+              <p class="card-text">Klientas: {{ car.klientas }}</p>
+              {% if car.uzsakymas_set.all %}
+                {% for uzsakymas in car.uzsakymas_set.all %}
+                  {% if forloop.last %}
+                    <p class="card-text
+                      {% if uzsakymas.status == 'galima_atsiimti' %}
+                        text-success
+                      {% elif uzsakymas.status == 'tvarkomas' %}
+                        text-warning
+                      {% else %}
+                        text-danger
+                      {% endif %}">
+                      Būklė: {{ uzsakymas.get_status_display }}
+                    </p>
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+                <p class="card-text">Būklė: Nėra užsakymų</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Autoservise nėra automobilių.</p>
+  {% endif %}
+
+  <div class="container puslapiai">
+    <nav aria-label="Puslapiavimas">
+      {% if cars.has_other_pages %}
+        <ul class="pagination pagination-sm justify-content-end">
+          {% if cars.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ cars.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
           {% endif %}
-        {% endfor %}
-      {% else %}
-        <p>Būklė: Nėra užsakymų</p>
+
+          {% for i in cars.paginator.page_range %}
+            {% if cars.number == i %}
+              <li class="page-item active">
+                <a class="page-link">{{ i }}</a>
+              </li>
+            {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+
+          {% if cars.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ cars.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
       {% endif %}
-    </li>
-  {% endfor %}
-  </ul>
+    </nav>
+  </div>
 {% endblock %}
