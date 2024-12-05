@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Automobilio_modelis, Automobilis, Paslauga, Uzsakymas, Uzsakymo_eilute
 
@@ -65,6 +66,16 @@ def search(request):
         Q(vin_kodas__icontains=query)
     )
     return render(request, 'search.html', {'cars': search_results, 'query': query})
+
+
+class CarByUserView(LoginRequiredMixin, generic.ListView):
+    model = Uzsakymas
+    template_name = 'user_cars.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        # return Uzsakymas.objects.filter(vartotojas=self.request.user).filter(status__exact='tvarkomas')
+        return Uzsakymas.objects.filter(vartotojas=self.request.user)
 
 
 # def register(request):

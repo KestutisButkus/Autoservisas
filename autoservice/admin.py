@@ -7,10 +7,18 @@ class UzsakymoEiluteInline(admin.TabularInline):
 
 class UzsakymasAdmin(admin.ModelAdmin):
     inlines = [UzsakymoEiluteInline]
-    list_display = ("id", 'automobilis', 'status', 'data')
+    list_display = ("id", 'get_automobilio_modelis',
+                    'terminas', 'status', "vartotojas", 'data')
 
-    # list_display = ('id', 'data', 'status', 'automobilis')
+    def get_automobilio_modelis(self, obj):
+        return (obj.automobilis.automobilio_modelis.marke + " " +
+                obj.automobilis.automobilio_modelis.modelis + " - " +
+                obj.automobilis.valstybinis_nr)
+    get_automobilio_modelis.short_description = 'Automobilis'
 
+    # def get_valstybinis_nr(self, obj):
+    #     return obj.automobilis.valstybinis_nr
+    # get_valstybinis_nr.short_description = 'Valstybinis NR'
 
 class AutomobilisAdmin(admin.ModelAdmin):
     list_display = ('klientas', 'automobilio_modelis', 'valstybinis_nr', 'vin_kodas')
@@ -21,12 +29,8 @@ class AutomobilisAdmin(admin.ModelAdmin):
 class PaslaugaAdmin(admin.ModelAdmin):
     list_display = ('pavadinimas', 'kaina', 'id')
 
-
-
 admin.site.register(Automobilio_modelis)
 admin.site.register(Automobilis, AutomobilisAdmin)
 admin.site.register(Uzsakymas, UzsakymasAdmin)
 admin.site.register(Paslauga, PaslaugaAdmin)
 admin.site.register(Uzsakymo_eilute)
-
-# https://github.com/KestutisButkus/Autoservisas

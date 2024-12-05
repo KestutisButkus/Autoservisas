@@ -9,13 +9,13 @@
     {% for uzsakymas in car.uzsakymas_set.all %}
       {% if forloop.last %}
         <p class="{% if uzsakymas.status == 'galima_atsiimti' %}text-success{% elif uzsakymas.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
-          Būklė: {{ uzsakymas.get_status_display }}
+          <a href="{% url 'order_detail' uzsakymas.id %}"> Būklė: {{ uzsakymas.get_status_display }} </a>
         </p>
         <img src="{{ car.car_pic.url }}" class="card-img-top" alt="{{ car.automobilio_modelis }}">
-      {% endif %}
+        <p><strong>Aprašymas:</strong> {{ car.automobilio_modelis.description | safe }}</p>
+  {% endif %}
     {% endfor %}
   {% else %}
     <p>Būklė: Nėra užsakymų</p>
-
   {% endif %}
 {% endblock %}

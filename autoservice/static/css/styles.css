@@ -40,3 +40,35 @@ body {
 .admin-link:hover {
   color: #cbeae7; /* Žydra šriftas pakabinus */
 }
+
+.custom-link {
+  color: #1f677f; /* Pasirink norimą spalvą */
+  text-decoration: none; /* Pašalina pabraukimą, jei norima */
+}
+
+.custom-link:hover {
+  color: #ffcc00; /* Pasirink spalvą kai pelės žymeklis virš nuorodos */
+  text-decoration: underline; /* Nuorodos pabraukimas pakabinus */
+}
+
+
+/* Papildomi stiliai automobilių sąrašui */
+.user-cars {
+  list-style-type: none; /* Pašalina sąrašo taškus */
+  padding: 0;
+}
+
+.user-cars li {
+  padding: 10px; /* Atstumas aplink kiekvieną elementą */
+  border-bottom: 1px solid #ccc; /* Apatinė riba */
+}
+
+.user-cars li a {
+  text-decoration: none; /* Pašalina nuorodų pabraukimą */
+  color: #1f677f; /* Nuorodų spalva */
+}
+
+.user-cars a:hover {
+  color: #ffcc00; /* Nuorodos spalva pakabinus */
+  text-decoration: underline; /* Nuorodos pabraukimas pakabinus */
+}

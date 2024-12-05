@@ -1,9 +1,13 @@
 from django.db import models
+from django.contrib.auth.models import User
+from datetime import date
+from tinymce.models import HTMLField
 
 
 class Automobilio_modelis(models.Model):
     marke = models.CharField('Markė', max_length=100, help_text='Įveskite markę (pvz. Ford)')
     modelis = models.CharField('Modelis', max_length=100, help_text='Įveskite modelį (pvz. Focus)')
+    description = HTMLField()
 
     def __str__(self):
         return f'{self.marke} {self.modelis}'
@@ -30,11 +34,19 @@ class Automobilis(models.Model):
 class Uzsakymas(models.Model):
     data = models.DateField('Data', null=True, blank=True)
     automobilis = models.ForeignKey('Automobilis', on_delete=models.CASCADE, null=False)
+    vartotojas = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    terminas = models.DateField('Terminas', null=True, blank=True)
+
+    @property
+    def is_overdue(self):
+        if self.terminas and date.today() > self.terminas:
+            return True
+        return False
 
     LOAN_STATUS = (
         ('uzregistruotas', 'Užregistruota'),
         ('eileje', 'Eilėje'),
-        ('tvarkomas', 'Tvarkoma'),
+        ('tvarkomas', 'Vyksta reomonto darbai'),
         ('galima_atsiimti', 'Galima atsiimti'),
     )
 
