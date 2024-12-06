@@ -1,40 +1,64 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Užsakymo NR: {{ details_order.id }}</h1>
-  <p>Automobilis:
+<h1>Užsakymo NR: {{ details_order.id }}</h1>
+<p>Automobilis:
     {% if details_order.automobilis %}
-      <a href="{% url 'car_detail' details_order.automobilis.id %}">{{ details_order.automobilis.automobilio_modelis }} - {{ details_order.automobilis.valstybinis_nr }}</a>
+    <a href="{% url 'car_detail' details_order.automobilis.id %}">{{ details_order.automobilis.automobilio_modelis }} -
+        {{ details_order.automobilis.valstybinis_nr }}</a>
     {% else %}
-      -
+    -
     {% endif %}
-  </p>
-  <p>Būklė: <span class="{% if details_order.status == 'galima_atsiimti' %}text-success{% elif details_order.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
+</p>
+<p>Būklė: <span
+        class="{% if details_order.status == 'galima_atsiimti' %}text-success{% elif details_order.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
     {{ details_order.get_status_display }}
   </span></p>
-  <p>Data: {{ details_order.data }}</p>
+<p>Data: {{ details_order.data }}</p>
 
-  <h3>Užsakymo Eilutės</h3>
-  {% if details_order.uzsakymo_eilute_set.all %}
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Paslauga</th>
-          <th scope="col">Kiekis</th>
-          <th scope="col">Kaina</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for eilute in details_order.uzsakymo_eilute_set.all %}
-          <tr>
-            <td>{{ eilute.paslauga }}</td>
-            <td>{{ eilute.kiekis }}</td>
-            <td>{{ eilute.kaina }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>Šis užsakymas neturi eilučių.</p>
+<h3>Užsakymo Eilutės</h3>
+{% if details_order.uzsakymo_eilute_set.all %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Paslauga</th>
+        <th scope="col">Kiekis</th>
+        <th scope="col">Kaina</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for eilute in details_order.uzsakymo_eilute_set.all %}
+    <tr>
+        <td>{{ eilute.paslauga }}</td>
+        <td>{{ eilute.kiekis }}</td>
+        <td>{{ eilute.kaina }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Šis užsakymas neturi eilučių.</p>
+{% endif %}
+</br>
+<h4>Atsiliepimai:</h4>
+{% if details_order.orderreview_set.all %}
+{% for review in details_order.orderreview_set.all %}
+<hr>
+<strong>{{ review.reviewer }}</strong>, <em>{{ review.date_created}}</em>
+<p>{{ review.content }}</p>
+{% endfor %}
+{% else %}
+<p>Užsakymas neturi atsiliepimų</p>
+{% endif %}
+  {% if user.is_authenticated %}
+  <div class="fieldWrapper">
+    <hr><br/>
+    <h4>Palikite atsiliepimą:</h4>
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.content }}</br>
+      <input type="submit" value="Išsaugoti">
+    </form>
+  </div>
   {% endif %}
 {% endblock %}

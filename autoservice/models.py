@@ -16,13 +16,14 @@ class Automobilio_modelis(models.Model):
         verbose_name = 'Automobilio modelis'
         verbose_name_plural = "Automobilio modeliai"
 
+
 class Automobilis(models.Model):
-    valstybinis_nr = models.CharField('Valstybinis NR', max_length=15, help_text='Įveskite Valstybinį nr. (pvz. AAA000)')
+    valstybinis_nr = models.CharField('Valstybinis NR', max_length=15,
+                                      help_text='Įveskite Valstybinį nr. (pvz. AAA000)')
     automobilio_modelis = models.ForeignKey('Automobilio_modelis', on_delete=models.CASCADE, null=False)
     vin_kodas = models.CharField('VIN Kodas', max_length=17, help_text='Įveskite VIN (pvz. 3C6UR5CJXEG146621)')
     klientas = models.CharField('Klientas', max_length=100, help_text='Vardas Pavardė (pvz. Juozas Juozaitis)')
     car_pic = models.ImageField('Foto', upload_to='car_pic', null=True, blank=True)
-
 
     def __str__(self):
         return f'{self.automobilio_modelis} - {self.valstybinis_nr} - VIN{self.vin_kodas} - Klientas: {self.klientas}'
@@ -30,6 +31,7 @@ class Automobilis(models.Model):
     class Meta:
         verbose_name = 'Automobilis'
         verbose_name_plural = "Automobiliai"
+
 
 class Uzsakymas(models.Model):
     data = models.DateField('Data', null=True, blank=True)
@@ -67,8 +69,10 @@ class Uzsakymas(models.Model):
         return (f'Užsakymo NR. {self.id} ({self.status}, {self.data}) - '
                 f'Automobilis: {self.automobilis.valstybinis_nr} VIN: {self.automobilis.vin_kodas}')
 
+
 class Paslauga(models.Model):
-    pavadinimas = models.CharField('Pavadinimas', max_length=100, help_text='Įveskite paslaugos pavadinimą (pvz. Tepalų keitimas)')
+    pavadinimas = models.CharField('Pavadinimas', max_length=100,
+                                   help_text='Įveskite paslaugos pavadinimą (pvz. Tepalų keitimas)')
     kaina = models.IntegerField('Kaina', help_text='Įveskite paslaugos kainą (pvz. 199)')
 
     def __str__(self):
@@ -77,6 +81,7 @@ class Paslauga(models.Model):
     class Meta:
         verbose_name = 'Paslauga'
         verbose_name_plural = "Paslaugos"
+
 
 class Uzsakymo_eilute(models.Model):
     paslauga = models.ForeignKey('Paslauga', on_delete=models.CASCADE, null=False)
@@ -91,7 +96,33 @@ class Uzsakymo_eilute(models.Model):
         verbose_name = 'Užsakymo eilutė'
         verbose_name_plural = "Užsakymo eilutės"
 
+
+class OrderReview(models.Model):
+    order = models.ForeignKey('Uzsakymas', on_delete=models.SET_NULL, null=True, blank=True)
+    reviewer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    content = models.TextField('Atsiliepimas', max_length=2000)
+
+    def order_id(self):
+        return self.order.id
+
+    order_id.short_description = 'Order ID'
+
+    def valstybinis_nr(self):
+        if self.order and self.order.automobilis:
+            return self.order.automobilis.valstybinis_nr
+        return 'N/A'
+
+    valstybinis_nr.short_description = 'Valstybinis NR'
+
+    class Meta:
+        verbose_name = "Atsiliepimas"
+        verbose_name_plural = 'Atsiliepimai'
+        ordering = ['-date_created']
+
+
 """
-dėkoju https://github.com/Gvirbalis/autoservice už pavyzdinį models.py kodą
+dėkoju https://github.com/Gvirbalis/autoservice 
+už pirmos paskaitos pavyzdinį models.py kodą
 """
 # https://github.com/KestutisButkus/Autoservisas

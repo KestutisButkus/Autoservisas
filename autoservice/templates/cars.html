@@ -2,28 +2,26 @@
 {% load static %}
 
 {% block content %}
-  <h1>Automobilių sąrašas</h1>
-  <br>
-  {% if cars %}
-    <div class="row">
-      {% for car in cars %}
-        <div class="col-md-4 d-flex align-items-stretch">
-          <div class="card mb-4 shadow-sm">
-            {% if car.car_pic %}
-              <img src="{{ car.car_pic.url }}" class="card-img-top" alt="{{ car.automobilio_modelis }}">
-            {% else %}
-              <img src="{% static 'images/no_img.png' %}" class="card-img-top" alt="Nėra paveikslėlio">
-            {% endif %}
-            <div class="card-body">
-              <h6 class="card-subtitle mb-2 text-muted">{{ car.automobilio_modelis }}</h6>
-              <p class="card-text">
-                <a href="{% url 'car_detail' car.id %}" class="custom-link">{{ car.valstybinis_nr }}</a>
-              </p>
-
-              <p class="card-text">Klientas: {{ car.klientas }}</p>
-              {% if car.uzsakymas_set.all %}
-                {% for uzsakymas in car.uzsakymas_set.all %}
-                  {% if forloop.last %}
+<h1>Automobilių sąrašas</h1>
+<br>
+{% if cars %}
+<div class="row">
+    {% for car in cars %}
+    <div class="col-md-4 d-flex align-items-stretch">
+        <a href="{% url 'car_detail' car.id %}" class="text-decoration-none">
+            <div class="card mb-4 shadow-sm">
+                {% if car.car_pic %}
+                <img src="{{ car.car_pic.url }}" class="card-img-top" alt="{{ car.automobilio_modelis }}">
+                {% else %}
+                <img src="{% static 'images/no_img.png' %}" class="card-img-top" alt="Nėra paveikslėlio">
+                {% endif %}
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">{{ car.automobilio_modelis }}</h6>
+                    <p class="card-text"> {{ car.valstybinis_nr }} </p>
+                    <p class="card-text">Klientas: {{ car.klientas }}</p>
+                    {% if car.uzsakymas_set.all %}
+                    {% for uzsakymas in car.uzsakymas_set.all %}
+                    {% if forloop.last %}
                     <p class="card-text
                       {% if uzsakymas.status == 'galima_atsiimti' %}
                         text-success
@@ -32,55 +30,55 @@
                       {% else %}
                         text-danger
                       {% endif %}">
-                      Būklė: {{ uzsakymas.get_status_display }}
+                        Būklė: {{ uzsakymas.get_status_display }}
                     </p>
-                  {% endif %}
-                {% endfor %}
-              {% else %}
-                <p class="card-text">Būklė: Nėra užsakymų</p>
-              {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <p class="card-text">Būklė: Nėra užsakymų</p>
+                    {% endif %}
+                </div>
             </div>
-          </div>
-        </div>
-      {% endfor %}
     </div>
-  {% else %}
-    <p>Autoservise nėra automobilių.</p>
-  {% endif %}
+    {% endfor %}
+</div>
+{% else %}
+<p>Autoservise nėra automobilių.</p>
+{% endif %}
 
-  <div class="container puslapiai">
+<div class="container puslapiai">
     <nav aria-label="Puslapiavimas">
-      {% if cars.has_other_pages %}
+        {% if cars.has_other_pages %}
         <ul class="pagination pagination-sm justify-content-end">
-          {% if cars.has_previous %}
+            {% if cars.has_previous %}
             <li class="page-item">
-              <a class="page-link" href="?page={{ cars.previous_page_number }}" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
+                <a class="page-link" href="?page={{ cars.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
             </li>
-          {% endif %}
-
-          {% for i in cars.paginator.page_range %}
-            {% if cars.number == i %}
-              <li class="page-item active">
-                <a class="page-link">{{ i }}</a>
-              </li>
-            {% else %}
-              <li class="page-item">
-                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-              </li>
             {% endif %}
-          {% endfor %}
 
-          {% if cars.has_next %}
-            <li class="page-item">
-              <a class="page-link" href="?page={{ cars.next_page_number }}" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
+            {% for i in cars.paginator.page_range %}
+            {% if cars.number == i %}
+            <li class="page-item active">
+                <a class="page-link">{{ i }}</a>
             </li>
-          {% endif %}
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if cars.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ cars.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% endif %}
         </ul>
-      {% endif %}
+        {% endif %}
     </nav>
-  </div>
+</div>
 {% endblock %}

@@ -1,35 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Užsakymai</h1>
-  <p>Užsakymų sąrašas.</p>
-  <table class="table table-striped">
+<h1>Užsakymai</h1>
+<p>Užsakymų sąrašas.</p>
+<table class="table table-striped">
     <thead>
-      <tr>
+    <tr>
         <th scope="col">Užsakymo NR</th>
         <th scope="col">Automobilis</th>
         <th scope="col">Būklė</th>
         <th scope="col">Data</th>
-      </tr>
+    </tr>
     </thead>
     <tbody>
-      {% for order in object_list %}
-        <tr>
-          <td>
+    {% for order in object_list %}
+    <tr>
+        <td>
             <a href="{% url 'order_detail' order.id %}"> {{ order.id }} </a> <!-- Pakeista į užsakymo detales -->
-          </td>
-          <td>
+        </td>
+        <td>
             {{ order.automobilis.automobilio_modelis }} - {{ order.automobilis.valstybinis_nr }}
-          </td>
-          <td class="{% if order.status == 'galima_atsiimti' %}text-success{% elif order.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
+        </td>
+        <td class="{% if order.status == 'galima_atsiimti' %}text-success{% elif order.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
             {{ order.get_status_display }}
-          </td>
-          <td>{{ order.data }}</td>
-        </tr>
-      {% endfor %}
+        </td>
+        <td>{{ order.data }}</td>
+    </tr>
+    {% endfor %}
     </tbody>
-  </table>
-  <div class="pagination">
+</table>
+<div class="pagination">
   <span class="step-links">
       {% if page_obj.has_previous %}
           <a href="?page=1">&laquo; pirmas</a>

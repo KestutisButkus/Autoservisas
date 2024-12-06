@@ -11,7 +11,7 @@
       <p>Neturite prieigos prie šios informacijos. Turite prisijungti.</p>
     {% endif %}
   {% endif %}
-<p class="nav-item"><a class="nav-link" href="#">Registruotis</a></p>
+<p class="nav-item"><a class="nav-link" href="{% url 'register'%}">Registruotis</a></p>
   <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
     <table>

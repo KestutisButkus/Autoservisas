@@ -72,3 +72,7 @@ body {
   color: #ffcc00; /* Nuorodos spalva pakabinus */
   text-decoration: underline; /* Nuorodos pabraukimas pakabinus */
 }
+
+.card-text {
+    color: #1f677f; /* Pakeiskite #ff5733 į norimą spalvą */
+}

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Automobilio_modelis, Automobilis, Uzsakymas, Paslauga, Uzsakymo_eilute
+from .models import Automobilio_modelis, Automobilis, Uzsakymas, Paslauga, Uzsakymo_eilute, OrderReview
+
 
 class UzsakymoEiluteInline(admin.TabularInline):
     model = Uzsakymo_eilute
@@ -29,6 +30,11 @@ class AutomobilisAdmin(admin.ModelAdmin):
 class PaslaugaAdmin(admin.ModelAdmin):
     list_display = ('pavadinimas', 'kaina', 'id')
 
+class OrderReviewAdmin(admin.ModelAdmin):
+    list_display = ('order_id', 'valstybinis_nr', 'date_created', 'reviewer', 'content')
+
+
+admin.site.register(OrderReview, OrderReviewAdmin)
 admin.site.register(Automobilio_modelis)
 admin.site.register(Automobilis, AutomobilisAdmin)
 admin.site.register(Uzsakymas, UzsakymasAdmin)
