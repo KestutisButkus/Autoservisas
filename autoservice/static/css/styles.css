@@ -119,6 +119,6 @@ body {
 }
 
 .card:hover {
-    transform: scale(1.08);  /* „Zoom“ efektas: padidina elementą šiek tiek, kai pelės žymeklis yra virš jo */
-/*    box-shadow: 0 24px 24px rgba(0, 0, 0, 0.5);  /* Stipresnis šešėlio efektas */
+    transform: scale(1.05);  /* „Zoom“ efektas: padidina elementą šiek tiek, kai pelės žymeklis yra virš jo */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3) !important;  /* Stipresnis šešėlio efektas */
 }
