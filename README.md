@@ -48,20 +48,3 @@
     ```plaintext
     http://127.0.0.1:8000/
     ```
-
-## Contributing
-
-Mielai priimame pagalbą ir pasiūlymus! Jei norite prisidėti prie projekto, prašome atlikti šiuos žingsnius:
-1. Fork šį repozitoriją.
-2. Sukurkite naują šaką (`git checkout -b feature/AmazingFeature`).
-3. Įvykdykite pakeitimus ir commituokite (`git commit -m 'Add some AmazingFeature'`).
-4. Push į šaką (`git push origin feature/AmazingFeature`).
-5. Sukurkite naują Pull Request.
-
-## Licencija
-
-Šis projektas licencijuotas pagal MIT licenciją. Daugiau informacijos rasite LICENSE faile.
-
----
-
-Dėkojame, kad naudojatės **Autoservisas** projektu! Jei turite klausimų ar pasiūlymų, prašome susisiekti per projekto GitHub puslapį.
