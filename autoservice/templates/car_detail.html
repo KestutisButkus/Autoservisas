@@ -1,21 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>{{ car.automobilio_modelis }}</h1><br>
-  <p>Užsakovas: {{ car.klientas }}</p>
-  <p>Valstybinis numeris: {{ car.valstybinis_nr }}</p>
-  <p>VIN kodas: {{ car.vin_kodas }}</p>
-  {% if car.uzsakymas_set.all %}
-    {% for uzsakymas in car.uzsakymas_set.all %}
-      {% if forloop.last %}
-        <p class="{% if uzsakymas.status == 'galima_atsiimti' %}text-success{% elif uzsakymas.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
-          <a href="{% url 'order_detail' uzsakymas.id %}"> Būklė: {{ uzsakymas.get_status_display }} </a>
-        </p>
-        <img src="{{ car.car_pic.url }}" class="card-img-top" alt="{{ car.automobilio_modelis }}">
-        <p><strong>Aprašymas:</strong> {{ car.automobilio_modelis.description | safe }}</p>
-  {% endif %}
-    {% endfor %}
-  {% else %}
-    <p>Būklė: Nėra užsakymų</p>
-  {% endif %}
+
+
+<h1>{{ car.automobilio_modelis }}</h1><br>
+<p>Užsakovas: {{ car.klientas }}</p>
+<p>Valstybinis numeris: {{ car.valstybinis_nr }}</p>
+<p>VIN kodas: {{ car.vin_kodas }}</p>
+{% if car.uzsakymas_set.all %}
+{% for uzsakymas in car.uzsakymas_set.all %}
+{% if forloop.last %}
+<p class="{% if uzsakymas.status == 'galima_atsiimti' %}text-success{% elif uzsakymas.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
+    <a href="{% url 'order_detail' uzsakymas.id %}"> Būklė: {{ uzsakymas.get_status_display }} </a>
+</p>
+{% endif %}
+{% endfor %}
+{% else %}
+<p>Būklė: Nėra užsakymų</p>
+{% endif %}
+<img src="{{ car.car_pic.url }}" alt="{{ car.automobilio_modelis }}">
+<p><strong>Aprašymas:</strong> {{ car.automobilio_modelis.description | safe }}</p>
 {% endblock %}

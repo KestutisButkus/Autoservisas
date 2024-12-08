@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseNotFound
 from django.forms import Form
 from django.shortcuts import render, get_object_or_404, redirect
+from django.template.context_processors import request
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -61,11 +62,20 @@ class OrderDetailView(FormMixin, generic.DetailView):
     template_name = 'order_detail.html'
     form_class = OrderReviewForm
 
-    # nurodome, kur atsidursime komentaro sėkmės atveju.
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        uzsakymo_eilutes = self.object.uzsakymo_eilute_set.all()
+        bendra_suma = 0
+        for eilute in uzsakymo_eilutes:
+            eilute.bendra_kaina = eilute.paslauga.kaina * int(eilute.kiekis)
+            bendra_suma += eilute.bendra_kaina
+        context['uzsakymo_eilutes'] = uzsakymo_eilutes
+        context['bendra_suma'] = bendra_suma
+        return context
+
     def get_success_url(self):
         return reverse('order_detail', kwargs={'pk': self.object.id})
 
-    # standartinis post metodo perrašymas, naudojant FormMixin, galite kopijuoti tiesiai į savo projektą.
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = self.get_form()
@@ -74,13 +84,13 @@ class OrderDetailView(FormMixin, generic.DetailView):
         else:
             return self.form_invalid(form)
 
-    # štai čia nurodome, kad knyga bus būtent ta, po kuria komentuojame, o vartotojas bus tas, kuris yra prisijungęs.
     def form_valid(self, form):
         form.instance.order = self.object
         form.instance.reviewer = self.request.user
         form.save()
         return super(OrderDetailView, self).form_valid(form)
     context_object_name = 'details_order'
+
 
 def search(request):
     query = request.GET.get('query')
@@ -131,3 +141,6 @@ def register(request):
             messages.error(request, 'Slaptažodžiai nesutampa!')
             return redirect('register')
     return render(request, 'register.html')
+
+# def price(request):
+# service_cost = Uzsakymo_eilute.kiekis * Paslauga.kaina

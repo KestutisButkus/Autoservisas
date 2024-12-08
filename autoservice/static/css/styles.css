@@ -76,3 +76,49 @@ body {
 .card-text {
     color: #1f677f; /* Pakeiskite #ff5733 į norimą spalvą */
 }
+
+.table-striped tbody tr:hover {
+/*    background-color: #f1f1f1; /* Pakeiskite #f1f1f1 į norimą spalvą */
+    transform: scale(1.01);  /* „Zoom“ efektas */
+    box-shadow: 0 0px 4px rgba(0, 0, 0, 0.3);  /* Šešėlio efektas */
+    transition: all 0.1s ease-in-out;  /* Sklandus perėjimas */
+}
+.car-link {
+    display: block;
+    text-decoration: none;  /* Pašalina pabraukimą */
+    color: #1f677f;  /* Išlaiko pradinę teksto spalvą */
+}
+
+.car-link:hover {
+/*    transform: scale(1.005); */
+    color: #3f9aaf;  /* Pakeičia spalvą ant hover */
+    text-decoration: none;  /* Pašalina pabraukimą */
+}
+
+.card {
+    display: flex;  /* Nustato flexbox konteinerį, kad jo vidiniai elementai galėtų būti lankstūs */
+    flex-direction: column;  /* Išdėsto vaikų elementus vertikaliai (stulpeliu) */
+    height: 100%;  /* Užtikrina, kad kortelė užims visą galimą aukštį */
+    transition: all 0.1s ease-in-out;  /* Nustato sklandų perėjimą visiems keitimams per 0,1 sekundės */
+}
+
+.card-body {
+    display: flex;  /* Nustato flexbox konteinerį, kad jo vidiniai elementai galėtų būti lankstūs */
+    flex-direction: column;  /* Išdėsto vaikų elementus vertikaliai (stulpeliu) */
+    flex-grow: 1;  /* Užtikrina, kad kortelės kūnas užims visą galimą vietą, išstumiant kitus elementus */
+}
+
+.card a {
+    text-decoration: none !important;  /* Pašalina pabraukimą nuo visų nuorodų kortelėje */
+    color: inherit !important;  /* Išlaiko pradinę teksto spalvą */
+}
+
+.card a:hover {
+    text-decoration: none !important;  /* Pašalina pabraukimą nuo nuorodų, kai jos yra „hover“ būsenoje */
+    color: inherit !important;  /* Išlaiko pradinę teksto spalvą */
+}
+
+.card:hover {
+    transform: scale(1.08);  /* „Zoom“ efektas: padidina elementą šiek tiek, kai pelės žymeklis yra virš jo */
+/*    box-shadow: 0 24px 24px rgba(0, 0, 0, 0.5);  /* Stipresnis šešėlio efektas */
+}

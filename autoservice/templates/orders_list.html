@@ -14,9 +14,9 @@
     </thead>
     <tbody>
     {% for order in object_list %}
-    <tr>
+    <tr onClick="window.location.href='{% url 'order_detail' order.id %}';" style="cursor: pointer;">
         <td>
-            <a href="{% url 'order_detail' order.id %}"> {{ order.id }} </a> <!-- Pakeista į užsakymo detales -->
+            {{ order.id }}
         </td>
         <td>
             {{ order.automobilis.automobilio_modelis }} - {{ order.automobilis.valstybinis_nr }}

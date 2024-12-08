@@ -1,25 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Mano automobiliai</h1>
+<h1>Mano automobiliai</h1>
 
-  {% if object_list %}
-    <ul class="user-cars">
-      {% for carinst in object_list %}
-        <li class="{% if carinst.is_overdue %}text-danger{% endif %}">
-          <a href="{% url 'car_detail' carinst.automobilis.pk %}">
-              {{ carinst.automobilis.automobilio_modelis }} -
-              {{ carinst.automobilis.valstybinis_nr }} -
-              {{ carinst.automobilis.vin_kodas }} -
-              <span class="{% if carinst.status == 'galima_atsiimti' %}text-success{% elif carinst.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
+{% if object_list %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Automobilio modelis</th>
+        <th>Valstybinis NR</th>
+        <th>VIN Kodas</th>
+        <th>Terminas</th>
+        <th>Būklė</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for carinst in object_list %}
+    <tr class="{% if carinst.is_overdue %}text-danger{% endif %}" onclick="window.location.href='{% url 'car_detail' carinst.automobilis.pk %}'" style="cursor: pointer;">
+        <td>{{ carinst.automobilis.automobilio_modelis }}</td>
+        <td>{{ carinst.automobilis.valstybinis_nr }}</td>
+        <td>{{ carinst.automobilis.vin_kodas }}</td>
+        <td>{{ carinst.terminas }}</td>
+        <td>
+            <span class="{% if carinst.status == 'galima_atsiimti' %}text-success{% elif carinst.status == 'tvarkomas' %}text-warning{% else %}text-danger{% endif %}">
                 {{ carinst.get_status_display }}
-              </span>
-          </a>
-          ( terminas iki: {{ carinst.terminas }})
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p class="user-cars"> Neturite užregistruotų automobilių.</p>
-  {% endif %}
+            </span>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="user-cars">Neturite užregistruotų automobilių.</p>
+{% endif %}
 {% endblock %}
