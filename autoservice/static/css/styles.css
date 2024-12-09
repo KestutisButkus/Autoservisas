@@ -122,3 +122,25 @@ body {
     transform: scale(1.05);  /* „Zoom“ efektas: padidina elementą šiek tiek, kai pelės žymeklis yra virš jo */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3) !important;  /* Stipresnis šešėlio efektas */
 }
+
+.review-container {
+    display: flex;  /* Nustato elementą kaip flexbox konteinerį, kad jo vidiniai elementai būtų lankstūs */
+/*    justify-content: space-between;  /* Išdėsto vidinius elementus taip, kad tarp jų būtų lygi tarpa */
+    align-items: center;  /* Vertikaliai sulygina vidinius elementus pagal konteinerio centrą */
+/*    margin-bottom: 0px;  /* Nustato apatinę kraštinę tarpa (nėra tarpo) */
+}
+
+.review-img {
+    flex-shrink: 0;  /* Užtikrina, kad elementas nesitrauks, jei trūksta vietos */
+    margin-right: 30px;  /* Prideda dešinę kraštinę tarpą (30px) */
+}
+
+.review-img img {
+    width: 50px;  /* Nustato paveikslėlio plotį (50px) */
+    height: 50px;  /* Nustato paveikslėlio aukštį (50px) */
+    object-fit: cover;  /* Užtikrina, kad paveikslėlis užpildytų elementą, išlaikydamas proporcijas ir nepalikdamas tuščių vietų */
+}
+
+.review-text {
+    flex-grow: 1;  /* Užtikrina, kad elementas užims visą galimą vietą, išstumiant kitus elementus */
+}

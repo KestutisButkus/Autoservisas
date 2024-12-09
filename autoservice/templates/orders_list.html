@@ -10,6 +10,7 @@
         <th scope="col">Automobilis</th>
         <th scope="col">Būklė</th>
         <th scope="col">Data</th>
+        <th scope="col">Avataras</th>
     </tr>
     </thead>
     <tbody>
@@ -25,6 +26,14 @@
             {{ order.get_status_display }}
         </td>
         <td>{{ order.data }}</td>
+        <td>
+            {% if order.vartotojas.profilis.nuotrauka %}
+           <img class="rounded-circle" src="{{ order.vartotojas.profilis.nuotrauka.url }}" alt="Profilio Nuotrauka" width="50">
+            {% else %}
+            <p>Nuotrauka nerasta</p>
+            {% endif %}
+        </td>
+
     </tr>
     {% endfor %}
     </tbody>

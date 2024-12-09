@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -11,8 +12,7 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.edit import FormMixin
-
-from .forms import OrderReviewForm
+from .forms import OrderReviewForm, UserUpdateForm, ProfilisUpdateForm
 from .models import Automobilio_modelis, Automobilis, Paslauga, Uzsakymas, Uzsakymo_eilute
 
 def index(request):
@@ -142,5 +142,22 @@ def register(request):
             return redirect('register')
     return render(request, 'register.html')
 
-# def price(request):
-# service_cost = Uzsakymo_eilute.kiekis * Paslauga.kaina
+@login_required
+def profilis(request):
+    if request.method == "POST":
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfilisUpdateForm(request.POST, request.FILES, instance=request.user.profilis)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f"Profilis atnaujintas")
+            return redirect('profilis')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfilisUpdateForm(instance=request.user.profilis)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form,
+    }
+    return render(request, 'profilis.html', context)

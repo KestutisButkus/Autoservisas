@@ -5,7 +5,7 @@
 <a href="{% url 'car_detail' details_order.automobilis.id %}" class="car-link">
     <h6>Automobilis:
         {% if details_order.automobilis %}
-        {{ details_order.automobilis.automobilio_modelis }} -
+        {{ details_order.automobilio_modelis }} -
         {{ details_order.automobilis.valstybinis_nr }}
         {% else %}
         -
@@ -46,13 +46,21 @@
 {% else %}
 <p>Šis užsakymas neturi eilučių.</p>
 {% endif %}
-</br>
+<br>
+
 <h4>Atsiliepimai:</h4>
 {% if details_order.orderreview_set.all %}
 {% for review in details_order.orderreview_set.all %}
 <hr>
-<strong>{{ review.reviewer }}</strong>, <em>{{ review.date_created }}</em>
-<p>{{ review.content }}</p>
+<div class="review-container">
+    <div class="review-img">
+        <img class="rounded-circle" src="{{review.reviewer.profilis.nuotrauka.url}}" alt="Profilio Nuotrauka">
+    </div>
+    <div class="review-text">
+        <strong>{{ review.reviewer }}</strong>, <em>{{ review.date_created }}</em>
+        <p>{{ review.content }}</p>
+    </div>
+</div>
 {% endfor %}
 {% else %}
 <p>Užsakymas neturi atsiliepimų</p>
@@ -64,7 +72,7 @@
     <h4>Palikite atsiliepimą:</h4>
     <form action="" method="post">
         {% csrf_token %}
-        {{ form.content }}</br>
+        {{ form.content }}<br>
         <input type="submit" value="Išsaugoti">
     </form>
 </div>

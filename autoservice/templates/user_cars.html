@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Mano automobiliai</h1>
-
+<h1>
+<img class="rounded-circle" src="{{ request.user.profilis.nuotrauka.url }}" alt="Profilio Nuotrauka" width="150">
+Mano automobiliai
+</h1>
 {% if object_list %}
 <table class="table table-striped">
     <thead>
