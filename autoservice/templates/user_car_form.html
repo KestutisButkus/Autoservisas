@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="content-section">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Naujas Užsakymas</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Paslaugos</legend>
+{{ eilutes.management_form }}
+{% for form in eilutes %}
+    <div class="form-row">
+        <div class="col">
+            {{ form.paslauga|as_crispy_field }}
+        </div>
+        <div class="col">
+            {{ form.kiekis|as_crispy_field }}
+        </div>
+        <div class="col">
+            {{ form.DELETE|as_crispy_field }}
+        </div>
+    </div>
+{% endfor %}
+
+
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Išsaugoti</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

@@ -8,11 +8,13 @@ from django.forms import Form
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.context_processors import request
 from django.urls import reverse
+from django.utils import timezone
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.decorators.csrf import csrf_protect
-from django.views.generic.edit import FormMixin
-from .forms import OrderReviewForm, UserUpdateForm, ProfilisUpdateForm
+from django.views.generic import DetailView
+from django.views.generic.edit import FormMixin, CreateView, UpdateView, DeleteView
+from .forms import OrderReviewForm, UserUpdateForm, ProfilisUpdateForm, UserCarCreateForm, UzsakymoEiluteFormSet
 from .models import Automobilio_modelis, Automobilis, Paslauga, Uzsakymas, Uzsakymo_eilute
 
 def index(request):
@@ -161,3 +163,61 @@ def profilis(request):
         'p_form': p_form,
     }
     return render(request, 'profilis.html', context)
+
+
+class CarByUserDetailView(LoginRequiredMixin, DetailView):
+    model = Uzsakymas
+    template_name = 'user_car.html'
+
+
+class CarByUserCreateView(LoginRequiredMixin, CreateView):
+    model = Uzsakymas
+    success_url = "/autoservice/mycars/"
+    template_name = 'user_car_form.html'
+    form_class = UserCarCreateForm
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        if self.request.POST:
+            data['eilutes'] = UzsakymoEiluteFormSet(self.request.POST)
+        else:
+            data['eilutes'] = UzsakymoEiluteFormSet()
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        eilutes = context['eilutes']
+        form.instance.vartotojas = self.request.user  # Priskiriame vartotoją
+        form.instance.data = timezone.now().date()  # Nustatome šiandienos datą
+        self.object = form.save()
+
+        if eilutes.is_valid():
+            eilutes.instance = self.object
+            eilutes.save()
+
+        return super().form_valid(form)
+
+
+
+class CarByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Uzsakymas
+    fields = ['automobilis', 'terminas']
+    success_url = "/autoservice/mycars/"
+    template_name = 'user_car_form.html'
+
+    def form_valid(self, form):
+        form.instance.vartotojas = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        car = self.get_object()
+        return self.request.user == car.vartotojas
+
+class CarByUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Uzsakymas
+    success_url = "/autoservice/mycars/"
+    template_name = 'user_car_delete.html'
+
+    def test_func(self):
+        car = self.get_object()
+        return self.request.user == car.vartotojas

@@ -18,7 +18,7 @@ Mano automobiliai
     </thead>
     <tbody>
     {% for carinst in object_list %}
-    <tr class="{% if carinst.is_overdue %}text-danger{% endif %}" onclick="window.location.href='{% url 'car_detail' carinst.automobilis.pk %}'" style="cursor: pointer;">
+<!--    <tr class="{% if carinst.is_overdue %}text-danger{% endif %}" onclick="window.location.href='{% url 'car_detail' carinst.automobilis.pk %}'" style="cursor: pointer;">-->
         <td>{{ carinst.automobilis.automobilio_modelis }}</td>
         <td>{{ carinst.automobilis.valstybinis_nr }}</td>
         <td>{{ carinst.automobilis.vin_kodas }}</td>
@@ -28,6 +28,7 @@ Mano automobiliai
                 {{ carinst.get_status_display }}
             </span>
         </td>
+        <td><a class="btn btn-primary" href="{{ carinst.pk }}" role="button">Peržiūrėti</a></td>
     </tr>
     {% endfor %}
     </tbody>

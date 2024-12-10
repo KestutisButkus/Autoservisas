@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1><img class="rounded-circle" src="{{object.vartotojas.profilis.nuotrauka.url}}" width="100">Mano automobilis:</h1>
+<img src="{{object.automobilis.car_pic.url}}" width="300">
+<br/>
+<br/>
+<h4 class="{% if object.is_overdue %}text-danger{% endif %}">{{object.automobilis.automobilio_modelis}}</h4>
+<br/>
+<li><a class="{% if object.is_overdue %}text-danger{% endif %}">VIN: {{object.automobilis.vin_kodas}}</a></li>
+<li><a class="{% if object.is_overdue %}text-danger{% endif %}">Valstybinis numeris:
+    {{object.automobilis.valstybinis_nr}}</a></li>
+<li><a class="{% if object.is_overdue %}text-danger{% endif %}">Klientas: {{object.automobilis.klientas}}</a></li>
+<li><strong>Gražinimo terminas:</strong> {{object.terminas}}</li>
+    {% if object.vartotojas == user %}
+            <div>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'my-car-update' object.id %}">Redaguoti</a>
+                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'my-car-delete' object.id %}">Ištrinti</a>
+            </div>
+            {% endif %}
+{% endblock %}
