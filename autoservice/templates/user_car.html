@@ -13,10 +13,10 @@
     {{object.automobilis.valstybinis_nr}}</a></li>
 <li><a class="{% if object.is_overdue %}text-danger{% endif %}">Klientas: {{object.automobilis.klientas}}</a></li>
 <li><strong>Gražinimo terminas:</strong> {{object.terminas}}</li>
-    {% if object.vartotojas == user %}
-            <div>
-                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'my-car-update' object.id %}">Redaguoti</a>
-                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'my-car-delete' object.id %}">Ištrinti</a>
-            </div>
-            {% endif %}
+{% if object.vartotojas == user %}
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'my-car-update' object.id %}">Redaguoti</a>
+    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'my-car-delete' object.id %}">Ištrinti</a>
+</div>
+{% endif %}
 {% endblock %}

@@ -12,10 +12,11 @@ from django.utils import timezone
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.decorators.csrf import csrf_protect
-from django.views.generic import DetailView
+from django.views.generic import DetailView, View
 from django.views.generic.edit import FormMixin, CreateView, UpdateView, DeleteView
 from .forms import OrderReviewForm, UserUpdateForm, ProfilisUpdateForm, UserCarCreateForm, UzsakymoEiluteFormSet
 from .models import Automobilio_modelis, Automobilis, Paslauga, Uzsakymas, Uzsakymo_eilute
+
 
 def index(request):
     num_cars_bukle = Uzsakymas.objects.all().count()
@@ -27,15 +28,16 @@ def index(request):
     num_visits = request.session.get('num_visits', 1)
     request.session['num_visits'] = num_visits + 1
     context = {
-                'num_car': num_car,
-                'num_cars_bukle': num_cars_bukle,
-                'num_instances_tvarkomas': num_instances_tvarkomas,
-                'num_car_models': num_car_models,
-                'paslaugu_kiekis': paslaugu_kiekis,
-                'atlikti_uzsakymai': atlikti_uzsakymai,
-                'num_visits': num_visits,
-            }
+        'num_car': num_car,
+        'num_cars_bukle': num_cars_bukle,
+        'num_instances_tvarkomas': num_instances_tvarkomas,
+        'num_car_models': num_car_models,
+        'paslaugu_kiekis': paslaugu_kiekis,
+        'atlikti_uzsakymai': atlikti_uzsakymai,
+        'num_visits': num_visits,
+    }
     return render(request, 'index.html', context=context)
+
 
 def car_list(request):
     models_list = Automobilis.objects.all()
@@ -46,18 +48,18 @@ def car_list(request):
     return render(request, 'cars.html', context=context)
 
 
-
-
 def car_detail(request, car_id):
     car = get_object_or_404(Automobilis, pk=car_id)
     return render(request, 'car_detail.html', {'car': car})
     (reququest, 'cars.html', {'cars': cars_list})
+
 
 class OrderListView(generic.ListView):
     model = Uzsakymas
     paginate_by = 8
     template_name = 'orders_list.html'
     context_object_name = 'object_list'
+
 
 class OrderDetailView(FormMixin, generic.DetailView):
     model = Uzsakymas
@@ -91,6 +93,7 @@ class OrderDetailView(FormMixin, generic.DetailView):
         form.instance.reviewer = self.request.user
         form.save()
         return super(OrderDetailView, self).form_valid(form)
+
     context_object_name = 'details_order'
 
 
@@ -144,6 +147,7 @@ def register(request):
             return redirect('register')
     return render(request, 'register.html')
 
+
 @login_required
 def profilis(request):
     if request.method == "POST":
@@ -187,8 +191,8 @@ class CarByUserCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         eilutes = context['eilutes']
-        form.instance.vartotojas = self.request.user  # Priskiriame vartotoją
-        form.instance.data = timezone.now().date()  # Nustatome šiandienos datą
+        form.instance.vartotojas = self.request.user
+        form.instance.data = timezone.now().date()
         self.object = form.save()
 
         if eilutes.is_valid():
@@ -196,7 +200,6 @@ class CarByUserCreateView(LoginRequiredMixin, CreateView):
             eilutes.save()
 
         return super().form_valid(form)
-
 
 
 class CarByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -213,6 +216,7 @@ class CarByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         car = self.get_object()
         return self.request.user == car.vartotojas
 
+
 class CarByUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Uzsakymas
     success_url = "/autoservice/mycars/"
@@ -221,3 +225,4 @@ class CarByUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         car = self.get_object()
         return self.request.user == car.vartotojas
+

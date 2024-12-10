@@ -11,6 +11,7 @@ class OrderReviewForm(forms.ModelForm):
         fields = ('content', 'order', 'reviewer',)
         widgets = {'order': forms.HiddenInput(), 'reviewer': forms.HiddenInput()}
 
+
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
 
@@ -28,11 +29,13 @@ class ProfilisUpdateForm(forms.ModelForm):
 class DateInput(forms.DateInput):
     input_type = 'date'
 
+
 class UserCarCreateForm(forms.ModelForm):
     class Meta:
         model = Uzsakymas
         fields = ['automobilis', 'vartotojas', 'terminas']
         widgets = {'vartotojas': forms.HiddenInput(), 'terminas': DateInput()}
+
 
 class UzsakymoEiluteForm(forms.ModelForm):
     class Meta:
@@ -45,5 +48,6 @@ class UzsakymoEiluteForm(forms.ModelForm):
             'kiekis': None,  # Pašaliname help_text
         }
 
-UzsakymoEiluteFormSet = inlineformset_factory(
-    Uzsakymas, Uzsakymo_eilute, form=UzsakymoEiluteForm, extra=1, can_delete=True)
+
+UzsakymoEiluteFormSet = inlineformset_factory(Uzsakymas, Uzsakymo_eilute,
+                                              form=UzsakymoEiluteForm, extra=3, can_delete=True)
