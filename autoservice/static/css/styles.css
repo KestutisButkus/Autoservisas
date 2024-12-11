@@ -1,5 +1,5 @@
 body {
-    background-color: #eeeeee; /* Šviesus fonas */
+    background-color: #fafafa; /* Šviesus fonas */
     color: #1f677f; /* Tekstas */
 }
 
@@ -14,8 +14,11 @@ body {
 }
 
 .navbar-custom .nav-link:hover {
-  color: #ffffff; /* Pakeiskite spalvą, kai nuoroda yra pakabinama */
-  text-decoration: underline;
+  color: #dddddd; /* Pakeiskite spalvą, kai nuoroda yra pakabinama */
+/*  text-decoration: underline;*/
+  /*transform: scale(1.02);  /* „Zoom“ efektas: padidina elementą šiek tiek, kai pelės žymeklis yra virš jo */
+  text-shadow: 0px 0px 12px rgba(255, 255, 255, 1); /*šešėlio efektas */
+  /*transition: all 0.1s ease-in-out;  /* Nustato sklandų perėjimą visiems keitimams per 0,1 sekundės */
 }
 
 .navbar-custom .navbar-brand {
@@ -39,6 +42,10 @@ body {
 
 .admin-link:hover {
   color: #cbeae7; /* Žydra šriftas pakabinus */
+  text-decoration: none;
+  transform: scale(1.02);  /* „Zoom“ efektas: padidina elementą šiek tiek, kai pelės žymeklis yra virš jo */
+  text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.5); /*šešėlio efektas */
+  transition: all 0.1s ease-in-out;  /* Nustato sklandų perėjimą visiems keitimams per 0,1 sekundės */
 }
 
 .custom-link {
@@ -79,7 +86,7 @@ body {
 
 .table-striped tbody tr:hover {
 /*    background-color: #f1f1f1; /* Pakeiskite #f1f1f1 į norimą spalvą */
-    transform: scale(1.01);  /* „Zoom“ efektas */
+    transform: scale(1.02);  /* „Zoom“ efektas */
     box-shadow: 0 0px 4px rgba(0, 0, 0, 0.3);  /* Šešėlio efektas */
     transition: all 0.1s ease-in-out;  /* Sklandus perėjimas */
 }
