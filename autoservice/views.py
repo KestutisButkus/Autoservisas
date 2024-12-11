@@ -16,6 +16,7 @@ from django.views.generic import DetailView, View
 from django.views.generic.edit import FormMixin, CreateView, UpdateView, DeleteView
 from .forms import OrderReviewForm, UserUpdateForm, ProfilisUpdateForm, UserCarCreateForm, UzsakymoEiluteFormSet
 from .models import Automobilio_modelis, Automobilis, Paslauga, Uzsakymas, Uzsakymo_eilute
+from django.utils.translation import gettext as _
 
 
 def index(request):
@@ -121,29 +122,29 @@ class CarByUserView(LoginRequiredMixin, generic.ListView):
 @csrf_protect
 def register(request):
     if request.method == "POST":
-        # pasiimame reikšmes iš registracijos formos
+        # retrieve values from registration form
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
         password2 = request.POST['password2']
-        # tikriname, ar sutampa slaptažodžiai
+        # check if passwords match
         if password == password2:
-            # tikriname, ar neužimtas username
+            # check if username is taken
             if User.objects.filter(username=username).exists():
-                messages.error(request, f'Vartotojo vardas {username} užimtas!')
+                messages.error(request, _('Username %s is already taken!') % username)
                 return redirect('register')
             else:
-                # tikriname, ar nėra tokio pat email
+                # check if email is already registered
                 if User.objects.filter(email=email).exists():
-                    messages.error(request, f'Vartotojas su el. paštu {email} jau užregistruotas!')
+                    messages.error(request, _('User with email %s is already registered!') % email)
                     return redirect('register')
                 else:
-                    # jeigu viskas tvarkoje, sukuriame naują vartotoją
+                    # if everything is okay, create a new user
                     User.objects.create_user(username=username, email=email, password=password)
-                    messages.info(request, f'Vartotojas {username} užregistruotas!')
+                    messages.info(request, _('User %s registered!') % username)
                     return redirect('login')
         else:
-            messages.error(request, 'Slaptažodžiai nesutampa!')
+            messages.error(request, _('Passwords do not match!'))
             return redirect('register')
     return render(request, 'register.html')
 
@@ -156,7 +157,7 @@ def profilis(request):
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
-            messages.success(request, f"Profilis atnaujintas")
+            messages.success(request, _("Profile updated"))
             return redirect('profilis')
     else:
         u_form = UserUpdateForm(instance=request.user)
@@ -167,7 +168,6 @@ def profilis(request):
         'p_form': p_form,
     }
     return render(request, 'profilis.html', context)
-
 
 class CarByUserDetailView(LoginRequiredMixin, DetailView):
     model = Uzsakymas

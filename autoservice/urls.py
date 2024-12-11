@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -14,5 +14,6 @@ urlpatterns = [
     path('mycars/<int:pk>/update', views.CarByUserUpdateView.as_view(), name='my-car-update'),
     path('mycars/<int:pk>/delete', views.CarByUserDeleteView.as_view(), name='my-car-delete'),
     path('register/', views.register, name='register'),
-    path('profilis/', views.profilis, name='profilis')
+    path('profilis/', views.profilis, name='profilis'),
+    path('i18n/', include('django.conf.urls.i18n')),
 ]

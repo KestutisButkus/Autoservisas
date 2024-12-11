@@ -1,16 +1,18 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
-  <h1>Mikrorajono autoservisas</h1>
-  <p>Sveiki atvykę į mikrorajono autoservisą!</p>
-  <p><strong>Dabartinė data:</strong> {% now "Y-m-d" %}
+  <h1>{% trans "Neighborhood Auto Service" %}</h1>
+  <p>{% trans "Welcome to the neighborhood auto service!" %}</p>
+  <p><strong>{% trans "Current Date:" %}</strong> {% now "Y-m-d" %}
   <ul>
-    <li><strong>Paslaugų kiekis:</strong> {{ paslaugu_kiekis }}</li>
-    <li><strong>Atlikti užsakymai:</strong> {{ atlikti_uzsakymai }}</li>
-    <li><strong>Automobilių:</strong> {{ num_car }}</li>
-    <li><strong>Viso užsakymų:</strong> {{ num_cars_bukle }}</li>
-    <li><strong>Šiuo metu remontuojame:</strong> {{ num_instances_tvarkomas }}</li>
-    <li><strong>Dirbame su šiais modeliais:</strong> {{ num_car_models }}</li>
+    <li><strong>{% trans "Number of Services:" %}</strong> {{ paslaugu_kiekis }}</li>
+    <li><strong>{% trans "Completed Orders:" %}</strong> {{ atlikti_uzsakymai }}</li>
+    <li><strong>{% trans "Cars:" %}</strong> {{ num_car }}</li>
+    <li><strong>{% trans "Total Orders:" %}</strong> {{ num_cars_bukle }}</li>
+    <li><strong>{% trans "Currently Being Repaired:" %}</strong> {{ num_instances_tvarkomas }}</li>
+    <li><strong>{% trans "We Work with These Models:" %}</strong> {{ num_car_models }}</li>
   </ul>
-  <p>Čia jūs lankotes {{ num_visits }}-ą kartą.</p>
+  <p>{% trans "This is your" %} {{ num_visits }}{% trans "th visit here." %}</p>
 {% endblock %}
+
+<!--

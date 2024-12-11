@@ -1,5 +1,5 @@
 from django.forms import inlineformset_factory
-
+from django.utils.translation import gettext as _
 from .models import OrderReview, Profilis, Uzsakymas, Uzsakymo_eilute
 from django import forms
 from django.contrib.auth.models import User
@@ -36,18 +36,18 @@ class UserCarCreateForm(forms.ModelForm):
         fields = ['automobilis', 'vartotojas', 'terminas']
         widgets = {'vartotojas': forms.HiddenInput(), 'terminas': DateInput()}
 
-
 class UzsakymoEiluteForm(forms.ModelForm):
     class Meta:
         model = Uzsakymo_eilute
         fields = ['paslauga', 'kiekis']
         widgets = {
-            'kiekis': forms.TextInput(attrs={'placeholder': 'Įveskite kiekį'}),
+            'kiekis': forms.TextInput(attrs={'placeholder': _('Enter quantity')}),
         }
         help_texts = {
-            'kiekis': None,  # Pašaliname help_text
+            'kiekis': None,  # Remove help_text
         }
+
 
 
 UzsakymoEiluteFormSet = inlineformset_factory(Uzsakymas, Uzsakymo_eilute,
-                                              form=UzsakymoEiluteForm, extra=3, can_delete=True)
+                                              form=UzsakymoEiluteForm, extra=4, can_delete=True)

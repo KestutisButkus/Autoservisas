@@ -1,24 +1,25 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 <h1>
-<img class="rounded-circle" src="{{ request.user.profilis.nuotrauka.url }}" alt="Profilio Nuotrauka" width="150">
-Mano automobiliai
+    <img class="rounded-circle" src="{{ request.user.profilis.nuotrauka.url }}" alt="{% trans "Profile Picture" %}" width="150">
+    {% trans "My Cars" %}
 </h1>
 {% if object_list %}
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>Automobilio modelis</th>
-        <th>Valstybinis NR</th>
-        <th>VIN Kodas</th>
-        <th>Terminas</th>
-        <th>Būklė</th>
+        <th>{% trans "Car Model" %}</th>
+        <th>{% trans "License Plate" %}</th>
+        <th>{% trans "VIN Code" %}</th>
+        <th>{% trans "Deadline" %}</th>
+        <th>{% trans "Status" %}</th>
     </tr>
     </thead>
     <tbody>
     {% for carinst in object_list %}
-<!--    <tr class="{% if carinst.is_overdue %}text-danger{% endif %}" onclick="window.location.href='{% url 'car_detail' carinst.automobilis.pk %}'" style="cursor: pointer;">-->
+    <tr class="{% if carinst.is_overdue %}text-danger{% endif %}" onclick="window.location.href='{% url 'car_detail' carinst.automobilis.pk %}'" style="cursor: pointer;">
         <td>{{ carinst.automobilis.automobilio_modelis }}</td>
         <td>{{ carinst.automobilis.valstybinis_nr }}</td>
         <td>{{ carinst.automobilis.vin_kodas }}</td>
@@ -28,12 +29,12 @@ Mano automobiliai
                 {{ carinst.get_status_display }}
             </span>
         </td>
-        <td><a class="btn btn-primary" href="{{ carinst.pk }}" role="button">Peržiūrėti</a></td>
+        <td><a class="btn btn-primary" href="{{ carinst.pk }}" role="button">{% trans "View" %}</a></td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
 {% else %}
-<p class="user-cars">Neturite užregistruotų automobilių.</p>
+<p class="user-cars">{% trans "You have no registered cars." %}</p>
 {% endif %}
 {% endblock %}
